@@ -9,15 +9,6 @@ from matplotlib import pyplot as plt
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 import random
-
-# os.environ['NO_PROXY'] = '169.254.169.254'
-# os.environ['HTTP_PROXY'] = '10.239.228.20:8000'
-# os.environ['HTTPS_PROXY'] = '10.239.228.20:8000'
-#
-# os.environ['http_proxy'] = "http://http.proxy.fmr.com:8000"
-# os.environ['https_proxy'] = "http://http.proxy.fmr.com:8000"
-
-# os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 torch.autograd.set_detect_anomaly(True)
 
 

@@ -148,7 +148,7 @@ def main():
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
     criterion = nn.CrossEntropyLoss()
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
-    for turn in range(1):
+    for turn in range(10):
         print(f'------------------------Turn = {turn}-----------------------------')
         print(f'------------------------Learning-----------------------------')
         for epoch in range(1, 2):
@@ -181,7 +181,7 @@ def main():
             # Top K forget rate=topK_fr [0.9581, 0.9761, 0.9766, 0.8962, 0.8526, 0.8254, 0.8094, 0.7991, 0.793]
             # Random forget rate=random_fr [0.9581, 0.9761, 0.9766, 0.9433, 0.7824, 0.617, 0.3688, 0.323, 0.3099]
 
-            train(args, model, device, forget_loader, optimizer, epoch, 'unlearning', 'rank_fr', turn)
+            train(args, model, device, forget_loader, optimizer, epoch, 'unlearning', 'topK_fr', turn)
             test(model, device, test_loader)
             scheduler.step()
             # get_mia_ibm(model)
@@ -193,11 +193,21 @@ def main():
 
 
 if __name__ == '__main__':
+    import time
+
+    start_time = time.time()
     main()
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    print(f"Execution time: {elapsed_time:.4f} seconds")
+
     print(accuracy)
     print(mia_score_list)
 
     accuracy = pd.DataFrame(accuracy)
     mia_score_df = pd.DataFrame(mia_score_list)
-    # accuracy.to_csv('plots/with_mia/5_epoch_1_Layers/Result_Rank_top_30_all_epoch_all_layer.csv', index=False)
-    # mia_score_df.to_csv('plots/with_mia/5_epoch_1_Layers/MIA_Rank_top_30_all_epoch_all_layer.csv', index=False)
+
+    accuracy.to_csv('results/mnist_digit/Result_Top30_Forgetting_all_layer_Accuracy.csv', index=False)
+    mia_score_df.to_csv('results/mnist_digit/Result_Top30_Forgetting_all_layer_MIA.csv', index=False)
+    #Rank Forgetting: Execution time: 1061.5947 seconds

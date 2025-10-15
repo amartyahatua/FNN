@@ -33,7 +33,7 @@ def compute_losses(net, loader):
 
         logits = net(inputs)
         losses = criterion(logits, targets)
-        losses = losses.detach().numpy()
+        losses = losses.detach().cpu().numpy()
         for l in losses:
             all_losses.append(l)
 
